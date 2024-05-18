@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block title %} Welcome {% endblock %}
+
+{% block content %}
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 bg-opacity-70 rounded-xl overflow-y-auto" style="max-height: 80em;">
+        <h2 class="mb-12 text-2xl text-center">Newest items</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {% for item in items%}
+                <div class="rounded-lg overflow-hidden">
+                    <a href="{% url 'item:detail' item.id %}">
+                        <div class="rounded-lg overflow-hidden">
+                            {% if item.image %}
+                            <img src="{{ item.image.url }}" class="w-full h-80 object-cover">
+                            {% else %}
+                            <p>No available image</p>
+                            {% endif %}
+                        </div>
+                        <div class="p-6 bg-white rounded-b-xl">
+                            <h2 class="block text-2xl font-semibold text-gray-800 hover:text-blue-500"> {{ item.name }} </h2>
+                            <p class="text-gray-500"> Price: {{item.price}} {% if item.currency %}{{ item.currency }}{% endif %}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 bg-opacity-70 rounded-xl overflow-y-auto" style="max-height: 20em;">
+        <h2 class="mb-12 text-2xl text-center">Categories</h2>
+    
+        <div class="grid md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+            {% for category in categories %}
+                <div class="inline-block w-full mr-3">
+                    <div class="p-6 bg-white rounded-xl">
+                        <h2 class="text-2xl">{{ category.name }}</h2>
+                        <p class="text-gray-500">{{ category.items.count }} items</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+{% endblock %}
