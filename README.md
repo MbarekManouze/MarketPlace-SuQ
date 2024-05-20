@@ -38,31 +38,31 @@ Django’s templating system allows you to create dynamic HTML pages. It uses th
 - **Media Files :**
        These are user-uploaded files like images. They’re managed with MEDIA_URL and MEDIA_ROOT.
 
+
+### ASGI
+ASGI (Asynchronous Server Gateway Interface) is used for handling asynchronous web applications. It’s crucial for real-time WebSocket connections in this project.
+
 ## Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
 ```
 git clone https://github.com/MbarekManouze/MarketPlace-SuQ.git
 cd marketplace
 ```
 
-2. Create and activate a virtual environment:
+2. **Create and activate a virtual environment:**
 ```
 python3 -m venv env
 source env/bin/activate
 ```
 
-3. Run the migrations:
+3. **Run the migrations:**
 ```
 python manage.py migrate
 ```
 
-4. Start the development server:
+4. **Start the development server:**
 ```
 python manage.py runserver
 ```
-
-### ASGI
-ASGI (Asynchronous Server Gateway Interface) is used for handling asynchronous web applications. It’s crucial for real-time WebSocket connections in this project.
-
 
