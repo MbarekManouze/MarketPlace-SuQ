@@ -15,7 +15,7 @@ SQLite is a simple, file-based database included with Python. It's used here for
 ### Django ORM
 The Django Object-Relational Mapping (ORM) lets you interact with the database using Python code. You define your data models as Python classes, and the ORM handles the SQL queries for you.
 
-on_delete=models.CASCADE
+** on_delete=models.CASCADE **
 In Django models, this option ensures that when a referenced object is deleted, all related objects are also deleted. This helps maintain database integrity.
 
 ### Django Forms
