@@ -72,3 +72,17 @@ python manage.py runserver
 - **Item Management:** Create, edit, and delete items.
 - **Real-time Messaging:** Communicate in real-time using WebSockets.
 - **Responsive Design:** The app is designed to be user-friendly and responsive.
+
+## Usage
+
+1- Navigate to the home page:
+```
+http://127.0.0.1:8000/
+```
+2- Sign up or log in.
+
+3- Browse items, add new items for sale, edit your items, or mark items as sold.
+
+4- Communicate with other users via the inbox feature, which uses real-time WebSocket connections.
+
+
