@@ -66,3 +66,9 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+## Features
+
+- **User Authentication:** Sign up, log in, and log out.
+- **Item Management:** Create, edit, and delete items.
+- **Real-time Messaging:** Communicate in real-time using WebSockets.
+- **Responsive Design:** The app is designed to be user-friendly and responsive.
