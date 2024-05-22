@@ -41,7 +41,7 @@
                         <a href="{% url 'item:detail' item.id %}">
                             <div class="">
                                 {% if item.image %}
-                                <img src="{{ item.image.url }}" class="w-full h-80 object-cover">
+                                <img src="{{ item.image.url }}" class="w-full h-80 object-fit: cover">
                                 {% else %}
                                 <p>No available image</p>
                                 {% endif %}

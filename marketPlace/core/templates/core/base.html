@@ -1,102 +1,141 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <script src="https://cdn.tailwindcss.com"></script>
-        
-        <title>{% block title %}{% endblock %} | MarketPlace</title>
-        <style>
-            html, body {
-                width: 100%;
-                height:100%;
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>{% block title %}{% endblock %} | MarketPlace</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
             }
-            
-            body {
-                background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-                background-size: 400% 400%;
-                animation: gradient 15s ease infinite;
+            50% {
+                background-position: 100% 50%;
             }
-            
-            @keyframes gradient {
-                0% {
-                    background-position: 0% 50%;
-                }
-                50% {
-                    background-position: 100% 50%;
-                }
-                100% {
-                    background-position: 0% 50%;
-                }
+            100% {
+                background-position: 0% 50%;
             }
-            .child{
-                background-color: rgba(255, 255, 255, 0.0); /* Child div background color with transparency */
-            }
-            .nav{
-                background-color: rgba(255, 255, 255, 0.8); /* Child div background color with transparency */
-            }            
-        </style>
-    </head>
+        }
+
+        .child {
+            background-color: rgba(255, 255, 255, 0.0); /* Child div background color with transparency */
+        }
+
+        .nav {
+            background-color: rgba(255, 255, 255, 0.8); /* Child div background color with transparency */
+        }
+
+        main {
+            flex: 1;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="bg-opacity-90 py-6 px-6 flex justify-between items-center bg-gray-900 text-white">
+        <a href="/" class="flex items-center space-x-2 text-xl font-semibold text-red-600 hover:text-red-400 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 fill-current text-red-600" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 10a2 2 0 114 0 2 2 0 01-4 0z" clip-rule="evenodd" />
+            </svg> 
+            <span class="text-lg text-gray-600 font-normal">Welcome to</span>
+            <span class="text-3xl text-red-600 font-bold">SuQ</span>
+            {% if request.user.is_authenticated %}
+                <span class="text-blue-600">{{ request.user }}</span>
+            {% endif %}
+        </a>
     
-    <body>
+        <!-- Hamburger Menu -->
+        <div class="block lg:hidden">
+            <button id="menu-toggle" class="focus:outline-none">
+                <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    
+        <div class="hidden lg:flex space-x-6">
+            <a href="{% url 'item:new' %}" class="px-4 py-2 text-lg font-semibold bg-orange-600 text-white rounded-xl hover:bg-red-500 transition duration-300">New Item</a>
+            <a href="{% url 'item:items' %}" class="px-4 py-2 text-lg font-semibold bg-orange-800 text-white rounded-xl hover:bg-gray-700 transition duration-300">Browse Items</a>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'conversation:inbox' %}" class="p-2 pr-4 pl-4 text-lg font-semibold bg-orange-900 text-white rounded-xl hover:bg-teal-500 transition duration-300">Inbox</a>
+                <a href="{% url 'dashboard:index' %}" class="p-2 pr-4 pl-4 text-lg font-semibold bg-orange-950 text-white rounded-xl hover:bg-gray-500 transition duration-300">Dashboard</a>
+                <a href="{% url 'core:logout' %}" class="inline-block px-4 py-2 text-lg font-semibold text-white bg-red-600 rounded-xl shadow-md hover:bg-gray-700 transition duration-300">Logout</a>
+            {% else %}
+                <a href="{% url 'core:signup' %}" class="p-2 pr-4 pl-4 text-lg font-semibold bg-blue-600 text-white rounded-xl hover:bg-blue-500 transition duration-300">Sign up</a>
+                <a href="{% url 'core:login' %}" class="text-center p-2 pr-4 pl-4 text-lg font-semibold bg-green-600 text-white rounded-xl hover:bg-green-500 transition duration-300">Log in</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden space-y-6 mt-6">
+        <a href="{% url 'item:new' %}" class="block px-4 py-2 text-lg font-semibold bg-orange-600 text-white rounded-xl hover:bg-red-500 transition duration-300">New Item</a>
+        <a href="{% url 'item:items' %}" class="block px-4 py-2 text-lg font-semibold bg-orange-800 text-white rounded-xl hover:bg-gray-700 transition duration-300">Browse Items</a>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'conversation:inbox' %}" class="block p-2 pr-4 pl-4 text-lg font-semibold bg-orange-900 text-white rounded-xl hover:bg-teal-500 transition duration-300">Inbox</a>
+            <a href="{% url 'dashboard:index' %}" class="block p-2 pr-4 pl-4 text-lg font-semibold bg-orange-950 text-white rounded-xl hover:bg-gray-500 transition duration-300">Dashboard</a>
+            <a href="{% url 'core:logout' %}" class="block px-4 py-2 text-lg font-semibold text-white bg-red-600 rounded-xl shadow-md hover:bg-gray-700 transition duration-300">Logout</a>
+        {% else %}
+            <a href="{% url 'core:signup' %}" class="block p-2 pr-4 pl-4 text-lg font-semibold bg-blue-600 text-white rounded-xl hover:bg-blue-500 transition duration-300">Sign up</a>
+            <a href="{% url 'core:login' %}" class="block text-center p-2 pr-4 pl-4 text-lg font-semibold bg-green-600 text-white rounded-xl hover:bg-green-500 transition duration-300">Log in</a>
+        {% endif %}
+    </div>
+    
+    <main class="px-6 py-6 child">
+        {% block content %}
+        {% endblock %}
+    </main>
 
-        <nav class="bg-opacity-90 py-6 px-6 flex justify-between items-center bg-gray-900 text-white">            
-            
-            <a href="/" class="flex items-center space-x-2 text-xl font-semibold text-red-600 hover:text-red-400 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 fill-current text-red-600" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 10a2 2 0 114 0 2 2 0 01-4 0z" clip-rule="evenodd" />
-                </svg> 
-                <span class="text-lg text-gray-600 font-normal">Welcome to</span>
-                <span class="text-3xl text-red-600 font-bold">SuQ</span> <!-- Logo -->
-                {% if request.user.is_authenticated %}
-                    <span class="text-blue-600">{{ request.user }}</span> <!-- User name -->
-                {% endif %}
-            </a>
-            
-            <div class="space-x-6">
-                    <a href="{% url 'item:new' %}" class="px-4 py-2 text-lg font-semibold bg-orange-600 text-white rounded-xl hover:bg-red-500 transition duration-300">New Item</a>
-                    <a href="{% url 'item:items' %}" class="px-4 py-2 text-lg font-semibold bg-orange-800 text-white rounded-xl hover:bg-gray-700 transition duration-300">Browse Items</a>
-                    {% if request.user.is_authenticated %}
-                        <a href="{% url 'conversation:inbox' %}" class="p-2 pr-4 pl-4 text-lg font-semibold bg-ornage-900 text-white rounded-xl hover:bg-teal-500 transition duration-300">Inbox</a>
-                        <a href="{% url 'dashboard:index' %}" class="p-2 pr-4 pl-4 text-lg font-semibold bg-orange-950 text-white rounded-xl hover:bg-gray-500 transition duration-300">Dashboard</a>
-                        <a href="{% url 'core:logout' %}" class="inline-block px-4 py-2 text-lg font-semibold text-white bg-red-600 rounded-xl shadow-md hover:bg-gray-700 transition duration-300">
-                            Logout
-                        </a>
-                    {% else %}
-                            <a href="{% url 'core:signup' %}" class="p-2 pr-4 pl-4 text-lg font-semibold bg-blue-600 text-white rounded-xl hover:bg-blue-500 transition duration-300">Sign up</a>
-                            <a href="{% url 'core:login' %}" class="text-center p-2 pr-4 pl-4 text-lg font-semibold bg-green-600 text-white rounded-xl hover:bg-green-500 transition duration-300">Log in</a>
-                    {% endif %}
+    <footer class="py-6 px-6 flex justify-between bg-gray-800">
+        <div class="w-2/3 pr-10">
+            <div class="text-center">
+                <h3 class="mb-5 font-semibold text-gray-400">About</h3>
+                <p class="text-gray-600">Welcome to our marketplace website! Discover a wide range of products from various categories. Whether you're looking for electronics, fashion, home goods, or more, we've got you covered. Shop with confidence and convenience with our secure platform. Start exploring today!</p>
             </div>
-
-        </nav>
-        
-        <div class="px-6 py-6 child">
-            {% block content %}
-            {% endblock %}
         </div>
 
-        <footer class="py-6 px-6 flex justify-between bg-gray-800">
-            <div class="w-2/3 pr-10">
-                <div class="text-center">
-                    <h3 class="mb-5 font-semibold text-gray-400">About</h3>
-                    <p class="text-gray-600">Welcome to our marketplace website! Discover a wide range of products from various categories. Whether you're looking for electronics, fashion, home goods, or more, we've got you covered. Shop with confidence and convenience with our secure platform. Start exploring today!</p>
-                </div>
-            </div>
+        <div class="w-1/3">
+            <h3 class="text-gray-400 mb-5 font-semibold">Menu</h3>
+            <ul class="space-y-2">
+                <li><a href="{% url 'core:About' %}" class="text-lg text-teal-500 hover:text-teal-700">About</a></li>
+                <li><a href="{% url 'core:contact' %}" class="text-lg text-teal-500 hover:text-teal-700">Contact</a></li>
+                <li><a href="{% url 'core:Privacy-Policy' %}" class="text-lg text-teal-500 hover:text-teal-700">Privacy Policy</a></li>
+                <li><a href="{% url 'core:terms-of-use' %}" class="text-lg text-teal-500 hover:text-teal-700">Term of use</a></li>
+            
+            </ul>
+        </div>
+    </footer>
 
-            <div class="w-1/3">
-                <h3 class="text-gray-400 mb-5 font-semibold">Menu</h3>
-                <ul class="space-y-2">
-                    <li><a href="{% url 'core:About' %}" class="text-lg text-teal-500 hover:text-teal-700">About</a></li>
-                    <li><a href="{% url 'core:contact' %}" class="text-lg text-teal-500 hover:text-teal-700">Contact</a></li>
-                    <li><a href="{% url 'core:Privacy-Policy' %}" class="text-lg text-teal-500 hover:text-teal-700">Privacy Policy</a></li>
-                    <li><a href="{% url 'core:terms-of-use' %}" class="text-lg text-teal-500 hover:text-teal-700">Term of use</a></li>
-                
-                </ul>
-            </div>
-        </footer>
-
-    </body>
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+    
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+    
+</body>
 
 </html>

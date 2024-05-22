@@ -27,7 +27,8 @@ class NewItemForm(forms.ModelForm):
                 'class': INPUT_ATTR
             }),
             'description': forms.Textarea(attrs={
-                'class': INPUT_ATTR
+                'class': INPUT_ATTR,
+                'rows': 10,
             }),
             'price': forms.TextInput(attrs={
                 'class': INPUT_ATTR

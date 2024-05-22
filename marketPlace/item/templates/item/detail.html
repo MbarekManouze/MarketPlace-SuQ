@@ -16,7 +16,7 @@
             {% if  item.description %}
                 <p class="text-gray-700">
                     <strong>Description: </strong><br>
-                    {{item.description}}
+                    {{item.description|linebreaks}}
                 </p>
             {% endif %}
 

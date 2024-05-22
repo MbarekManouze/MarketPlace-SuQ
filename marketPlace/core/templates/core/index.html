@@ -5,7 +5,7 @@
 {% block content %}
 
     <div class="mt-6 px-6 py-12 bg-gray-100 bg-opacity-70 rounded-xl overflow-y-auto" style="max-height: 80em;">
-        <h2 class="mb-12 text-2xl text-center">Newest items</h2>
+        <h2 class="mb-12 text-2xl text-center">Newest Products</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {% for item in items%}
@@ -13,7 +13,7 @@
                     <a href="{% url 'item:detail' item.id %}">
                         <div class="rounded-lg overflow-hidden">
                             {% if item.image %}
-                            <img src="{{ item.image.url }}" class="w-full h-80 object-cover">
+                            <img src="{{ item.image.url }}" class="w-full h-80 object-fit: cover">
                             {% else %}
                             <p>No available image</p>
                             {% endif %}
